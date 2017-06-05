@@ -1,0 +1,38 @@
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">Mongo Scraper</a>
+    </div>
+    <ul class="nav navbar-nav">
+           <form class="create-update-form" action="/home" method="GET">
+        <button type="submit" class="btn btn-primary user-settings">Home</button>
+      </form>
+            <form class="create-update-form" action="/savedarticle" method="GET">
+        <button type="submit" class="btn btn-primary user-settings">Saved Article</button>
+      </form>
+      <li>
+      <form class="create-update-form" action="/scrape" method="GET">
+        <button type="submit" class="btn btn-primary user-settings">Scrape New Articles</button>
+      </form>
+    </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+<div class="row">
+ 	<h1 class = "center-block"> Los Angeles Times
+</div>
+<div class="col-sm-12 text-center" class="task">
+	{{#each this}}
+		{{#unless this.saved}}
+	   <div class="panel panel-primary">
+      <div class="panel-heading">{{this.title}} <button type="button" class="btn btn-primary" id="savearticle" data-id= "{{this._id}}">Save this Article</button></div>
+      <div class="panel-body">{{this.link}} 
+      </div>
+    </div>
+    {{/unless}}
+    {{/each}}
+</div>

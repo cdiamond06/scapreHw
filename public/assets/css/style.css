@@ -1,0 +1,33 @@
+.container {
+	background-image: url("http://www.aeramirez.com/wp-content/uploads/los_angeles_logo-450x300.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 70%;
+	color: red;
+	font-size: 40px;
+	
+}
+
+h1 {
+	text-align: center;
+}
+nav navbar-nav {
+	width: 100%;
+	text-align: center;
+}
+
+button {
+	display: inline-block;
+}
+
+.panel-heading {
+	font-size: 30px;
+}
+
+.panel-body {
+	font-size: 20px;
+}
+
+#savearticle {
+	float: right;
+}

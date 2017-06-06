@@ -59,6 +59,9 @@ db.once("open", function() {
 
 // home route
 app.get('/', function(req, res){
+ Article.remove({}, function(err) { 
+   console.log('collection removed') 
+});
   res.redirect("/home");
 });
 // 
@@ -148,27 +151,45 @@ app.get("/scrape", function(req, res) {
   res.redirect("/home");
 });
 
-// This will get the articles we scraped from the mongoDB
-// app.get("/articles", function(req, res) {
-//   // Grab every doc in the Articles array
-//   Article.find({}, function(error, doc) {
-//     // Log any errors
-//     if (error) {
-//       console.log(error);
-//     }
-//     // Or send the doc to the browser as a json object
-//     else {
-//       console.log("This is the type of doc line 126", typeof doc)
-//       // res.json(doc);
-//       console.log("this is line 28", doc);
-      
-//     }
-//   })
-//   .then(function(data){
-//     // console.log("---------------",typeof doc);
-//     res.render("home", data)
-//   });
-// });
+// Create a new note or replace an existing note
+app.post("/notes/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  var newNote = new Note(req.body);
+
+  // And save the new note the db
+  newNote.save(function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Otherwise
+    else {
+      // Use the article id to find and update it's note
+      Article.findOneAndUpdate({ "_id": req.params.id }, {$push: { "note": doc._id }}, {new: true})
+      // Execute the above query
+      .exec(function(err, doc) {
+        // Log any errors
+        if (err) {
+          console.log(err);
+        }
+        else {
+          // Or send the document to the browser
+          res.send(doc);
+        }
+      });
+    }
+  });
+});
+
+app.delete("/delete/:id", function(req, res){
+  Article.findOneAndRemove({}, {"note": req.params.id}, function(error, doc){
+    if(error){
+      console.log(error);
+    } else{
+      res.redirect('/home');
+    }
+  })
+})
 
 // // Grab an article by it's ObjectId
 // app.get("/articles/:id", function(req, res) {
@@ -225,7 +246,7 @@ app.post("/delete/:id", function(req, res) {
         }
         else {
           // Or send the document to the browser
-          res.redirect("/saved");
+          res.redirect("/savedarticle");
         }
       });
 

@@ -24,6 +24,7 @@ var app = express();
 
 var count = 0;
 
+var port = process.env.PORT || 3000;
 
 
 // Make public a static dir
@@ -40,7 +41,20 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/scraperhw");
+var databaseUri = "mongodb://localhost/scraperhw";
+
+if(process.env.MONGODB_URI){
+  mongoose.connect(process.env.MONGODB_URI);
+} else{
+  mongoose.connect(databaseUri);
+}
+
+
+
+
+
+
+
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -254,6 +268,6 @@ app.post("/delete/:id", function(req, res) {
 
 
 // Listen on port 3000
-app.listen(3000, function() {
+app.listen(port, function() {
   console.log("App running on port 3000!");
 });

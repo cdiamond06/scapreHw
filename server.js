@@ -57,17 +57,11 @@ db.once("open", function() {
 // Routes
 // ======
 
-// var routes = require("./controllers/controller.js");
-
-// app.use("/", routes);
-
+// home route
 app.get('/', function(req, res){
- Article.remove({}, function(err) { 
-   console.log('collection removed') 
-});
   res.redirect("/home");
 });
-
+// 
 app.get("/home", function(req, res){
   if(count = 0) {
      res.render("home");
@@ -82,6 +76,7 @@ app.get("/home", function(req, res){
   })
   .then(function(data){
     // console.log("---------------",typeof doc);
+    // grabs the top 15 stories
     var topstories = [];
     for(var i = 0; i < 15; i++){
       topstories.push(data[i]);
@@ -109,7 +104,7 @@ app.get("/savedarticle", function(req, res){
     for(var i = 0; i < 15; i++){
       topstories.push(data[i]);
     }
-    res.render("saved", topstories);
+    res.render("saved", {data:topstories});
   });
    }
 });
@@ -211,7 +206,8 @@ app.post("/saved/:id", function(req, res) {
         }
         else {
           // Or send the document to the browser
-          res.render("home");
+          console.log("working line 211")
+          res.redirect("/home");
         }
       });
 
@@ -229,7 +225,7 @@ app.post("/delete/:id", function(req, res) {
         }
         else {
           // Or send the document to the browser
-          res.render("saved");
+          res.redirect("/saved");
         }
       });
 

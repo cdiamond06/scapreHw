@@ -1,4 +1,4 @@
-$("#savearticle").on("click", function(){
+$(document).on("click", "#savearticle", function(){
 
 	var thisId = $(this).attr("data-id");
 
@@ -11,7 +11,7 @@ $("#savearticle").on("click", function(){
 	})
 })
 
-$("#deletearticle").on("click", function(){
+$(document).on("click", "#deletearticle", function(){
 
 	var thisId = $(this).attr("data-id");
 
